@@ -10,14 +10,30 @@ Instalación y configuración de Fail2ban.
 
 Creación de usuarios sin privilegios administrativos.
 
+## 2.Arquitectura
 
-## 2. Configuración de usuarios
-Creación de usuario sin privilegios
-Se creó un usuario específico para la administración diaria del sistema:
+El laboratorio se realizó sobre un servidor Ubuntu dentro de un entorno virtualizado.
+
+La estructura utilizada es:
+
+             RED LOCAL
+                 |
+          +------+------+
+          |             |
+       Cliente      Ubuntu Server
+                       |
+             +---------+---------+
+             |         |         |
+            SSH     Fail2ban    UFW
+
+El equipo cliente se utiliza para realizar las conexiones y pruebas contra el servidor Ubuntu.
+
+## 3. Configuración de usuarios
+Se creó un usuario específico para el uso diario del sistema sin privilegios:
 sudo adduser user
 Verificación:		id user
 
-## 3. SSH seguro
+## 4. SSH seguro
 SSH es uno de los servicios más atacados en servidores ya que permite acceso remoto. Por eso es recomendable hacer algunos cambios en el fichero de configuración de sshd
 sudo nano /etc/ssh/sshd_config
 Configuración aplicada:
@@ -40,7 +56,7 @@ Comprobación:	sudo systemctl status ssh
 Por lo que ahora, para acceder por ssh, se debe añadir -p + nuevo puerto:
 ssh alvaro@192.168.1.131 -p 2260
 
-## 4. Instalación y configuración de Fail2ban
+## 5. Instalación y configuración de Fail2ban
 **Instalación**
 sudo apt install fail2ban -y
 Comprobar estado:
@@ -71,7 +87,7 @@ Reduce ataques de fuerza bruta.
 En la configuración actual una IP que falle 3 veces en 10 minutos quedará bloqueada durante 10 minutos.
 
 
-## 5. Configuración del Firewall UFW
+## 6. Configuración del Firewall UFW
 El firewall controla qué conexiones pueden salir y entrar al servidor.
 Las funciones del firewall ufw :
 Bloquea accesos no autorizados.
@@ -98,8 +114,15 @@ Verificación:
 <img width="644" height="231" alt="Captura de pantalla 2026-06-03 184212" src="https://github.com/user-attachments/assets/b843bf35-3786-47b4-a29c-a411d27f8b0f" />
 
 
-## 6. Verificación de servicios
+## 7. Verificación de servicios
+
 Comprobación general:
 sudo systemctl status ssh
 sudo systemctl status fail2ban
 sudo ufw status
+
+## 8.Conclusiones
+
+A la hora de configurar un servidor no basta con instalar los servicios básicos para una correcta seguridad, es necesario añadirle una capa extra que es el hardening.He configurado SSH para hacerlo más seguro, cambiado el puerto por defecto, desactivado el acceso de root y limitado los intentos de autenticación. También he utilizado Fail2ban para bloquear intentos repetidos de acceso y UFW para controlar las conexiones que pueden entrar al servidor.
+
+La práctica me ha servido para ver que pequeñas modificaciones en la configuración de un servidor pueden mejorar bastante su seguridad y, sobre todo, para familiarizarme más con herramientas que se utilizan habitualmente en la administración y protección de sistemas Linux.
