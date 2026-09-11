@@ -1,4 +1,5 @@
 ## 1. Introducción
+
 El hardening consiste en aplicar una serie de medidas de seguridad destinadas a reducir la superficie de ataque de un sistema. El objetivo es minimizar los riesgos de acceso no autorizado, explotación de vulnerabilidades y movimientos laterales dentro de una infraestructura.
 En este laboratorio se ha realizado el endurecimiento básico de un servidor Ubuntu mediante:
 
@@ -29,11 +30,13 @@ La estructura utilizada es:
 El equipo cliente se utiliza para realizar las conexiones y pruebas contra el servidor Ubuntu.
 
 ## 3. Configuración de usuarios
+
 Se creó un usuario específico para el uso diario del sistema sin privilegios:
 sudo adduser user
 Verificación:		id user
 
 ## 4. SSH seguro
+
 SSH es uno de los servicios más atacados en servidores ya que permite acceso remoto. Por eso es recomendable hacer algunos cambios en el fichero de configuración de sshd
 sudo nano /etc/ssh/sshd_config
 Configuración aplicada:
@@ -57,11 +60,15 @@ Por lo que ahora, para acceder por ssh, se debe añadir -p + nuevo puerto:
 ssh alvaro@192.168.1.131 -p 2260
 
 ## 5. Instalación y configuración de Fail2ban
+
 **Instalación**
+
 sudo apt install fail2ban -y
 Comprobar estado:
 sudo systemctl status fail2ban
+
 **Configuración**
+
 Crear archivo:
 sudo nano /etc/fail2ban/jail.local
 Configuración básica:
@@ -76,9 +83,11 @@ bantime = 10m
 
 
 Reiniciar servicio:	sudo systemctl restart fail2ban
+
 Comprobación:	sudo fail2ban-client status sshd
 
 **¿Por qué mejora la seguridad?**
+
 Fail2ban monitoriza los registros del sistema.
 Cuando detecta varios intentos fallidos consecutivos:
 Identifica la IP atacante.
@@ -93,10 +102,13 @@ Las funciones del firewall ufw :
 Bloquea accesos no autorizados.
 Reduce servicios expuestos.
 Limita posibles vectores de ataque.
+
 **Instalación**
+
 sudo apt update
 sudo apt install ufw -y
 Configuración inicial:
+
 **sudo ufw default deny incoming**
 	Cualquier conexión que intente entrar al servidor será bloqueada por defecto.
 Solo se permitirá el tráfico para el que hayas creado una regla explícita.
@@ -104,10 +116,13 @@ Solo se permitirá el tráfico para el que hayas creado una regla explícita.
 **sudo ufw default allow outgoing**
 
 El servidor puede iniciar conexiones hacia Internet o hacia otros equipos sin restricciones. 
+
 Permitir SSH:
 **sudo ufw allow 2260**
+
 Activación:
 **sudo ufw enable**
+
 Verificación:
 **sudo ufw status**
 
@@ -117,8 +132,11 @@ Verificación:
 ## 7. Verificación de servicios
 
 Comprobación general:
+
 sudo systemctl status ssh
+
 sudo systemctl status fail2ban
+
 sudo ufw status
 
 ## 8.Conclusiones
