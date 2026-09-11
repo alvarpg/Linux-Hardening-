@@ -1,9 +1,13 @@
 ## 1. Introducción
 El hardening consiste en aplicar una serie de medidas de seguridad destinadas a reducir la superficie de ataque de un sistema. El objetivo es minimizar los riesgos de acceso no autorizado, explotación de vulnerabilidades y movimientos laterales dentro de una infraestructura.
 En este laboratorio se ha realizado el endurecimiento básico de un servidor Ubuntu mediante:
+
 Configuración segura de SSH.
+
 Implementación de firewall UFW.
+
 Instalación y configuración de Fail2ban.
+
 Creación de usuarios sin privilegios administrativos.
 
 
